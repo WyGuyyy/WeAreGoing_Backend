@@ -43,6 +43,10 @@ public class InfoService
 		{
 			infoRepository.incrementAmount();
 		}
+	
+	public void resetAmount() {
+		infoRepository.resetAmount();
+	}
 
 	public void deleteInfo(String id)
 		{

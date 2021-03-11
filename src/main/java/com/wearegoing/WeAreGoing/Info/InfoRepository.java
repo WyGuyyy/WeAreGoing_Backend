@@ -14,4 +14,9 @@ public interface InfoRepository extends CrudRepository<Info, Integer>
 	@Transactional
 	@Query(value="UPDATE info SET amount = amount + 1 WHERE info_id = 1", nativeQuery=true)
 	public void incrementAmount();
+	
+	@Modifying
+	@Transactional
+	@Query(value="UPDATE info SET amount = 0 WHERE info_id = 1", nativeQuery=true)
+	public void resetAmount();
 }
