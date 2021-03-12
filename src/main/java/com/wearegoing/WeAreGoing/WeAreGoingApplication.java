@@ -56,21 +56,6 @@ public class WeAreGoingApplication {
 	    						}
 	    					}
 	    				
-	    					/*setToNextSaturday(Calendar.SATURDAY, c);
-	    					msTillTimeout = (c.getTimeInMillis()-System.currentTimeMillis());
-	    					
-	    					try {
-	    						Thread.sleep(msTillTimeout);
-	    						
-	    						while(true) {
-	    							
-	    						}
-	    						
-	    					} catch (InterruptedException e1) {
-	    						// TODO Auto-generated catch block
-	    						e1.printStackTrace();
-	    					}*/
-	    					
 	    					c = null;
 	    					
 	    				}
