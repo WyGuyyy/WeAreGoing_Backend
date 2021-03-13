@@ -52,5 +52,9 @@ public class InfoService
 		{
 			infoRepository.deleteById(Integer.parseInt(id));
 		}
+	
+	public void setAmount(int newAmount) {
+			infoRepository.setAmount(newAmount);
+	}
 
 }
