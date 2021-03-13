@@ -41,7 +41,7 @@ public class InfoController
 		}
 	
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/api/info/increment")
+	/*@RequestMapping(method = RequestMethod.GET, value = "/api/info/increment")
 	public void incrementAmount()
 		{
 			infoService.incrementAmount();
@@ -78,6 +78,6 @@ public class InfoController
 				{
 					return colInfo;
 				}
-		}
+		}*/
 }
 
