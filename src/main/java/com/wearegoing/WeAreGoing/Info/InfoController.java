@@ -26,7 +26,7 @@ public class InfoController
 	@Autowired
 	InfoService infoService;
 
-	@RequestMapping("/api/info/{info_id}")
+	/*@RequestMapping("/api/info/{info_id}")
 	public Info getInfo(@PathVariable("info_id") String id)
 		{
 
@@ -41,7 +41,7 @@ public class InfoController
 		}
 	
 	
-	/*@RequestMapping(method = RequestMethod.GET, value = "/api/info/increment")
+	@RequestMapping(method = RequestMethod.GET, value = "/api/info/increment")
 	public void incrementAmount()
 		{
 			infoService.incrementAmount();
@@ -63,7 +63,7 @@ public class InfoController
 	public void deleteInfo(@PathVariable("info_id") String id)
 		{
 			infoService.deleteInfo(id);
-		}
+		}*/
 
 	@RequestMapping("/api/info")
 	public Collection<Info> getAllInfo()
@@ -78,6 +78,6 @@ public class InfoController
 				{
 					return colInfo;
 				}
-		}*/
+		}
 }
 

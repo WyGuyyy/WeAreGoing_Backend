@@ -8,6 +8,8 @@ import javax.net.ssl.HttpsURLConnection;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -51,7 +53,7 @@ public class WeAreGoingApplication {
 	    return new SimpleAsyncTaskExecutor(); // Or use another one of your liking
 	}
 	
-	/*@Bean
+	@Bean
 	public CommandLineRunner schedulingReset(TaskExecutor executor) {
 	    return new CommandLineRunner() {
 	    	
@@ -87,9 +89,146 @@ public class WeAreGoingApplication {
 	    			});
 	        }
 	    };
+	}
+	
+	/*@Bean
+	public CommandLineRunner schedulingToken(TaskExecutor executor) {
+	    return new CommandLineRunner() {
+	    	
+	    	@Autowired
+	    	InfoService infoService;
+	    	
+	        public void run(String... args) throws Exception {
+	            executor.execute(new Runnable() {
+	    			
+	    			public void run() {
+	    		       
+	    		        int amount = 0;
+	    		        int paypalBalance = 0;
+	    		   
+	    				
+	    				while(true) {
+	    					
+	    					try {
+	    						
+	    						HttpsURLConnection connection = null;
+	    						BufferedWriter writer = null;
+	    						BufferedReader br = null;
+	    						OutputStream os = null;
+	    						JSONTokener jsonTokener = null;
+	    						JSONObject json = null;
+	    						
+	    						String data = "grant_type=client_credentials";
+	    						String cred = "Aa9IbDS7OS79cp3KX3KHQSL4cnLNXqpJ6Kx1LTNkacmeGWmsx-2x_ukP-rvx97exOXQat0tiJvXy_SId:EOFRODgB6-00AGAGkwuASJ-vEG8WuVBEOgPSwSon1awGUtI1Lq1E0h5RstB-gZx6dKojjIQqYLi-ct4c";
+	    						String token = "";
+	    						
+	    						//Setup comnnection to paypal
+								URL url = new URL("https://api.sandbox.paypal.com/v1/oauth2/token");
+								connection = (HttpsURLConnection) url.openConnection();
+								connection.setRequestMethod("POST");
+								connection.setRequestProperty("Authorization", "Basic " + new String(new org.apache.commons.codec.binary.Base64().encode(cred.getBytes())));
+								connection.setRequestProperty("Content-Length", Integer.toString(data.length()));
+								connection.setRequestProperty("Accept", "application/json");
+								connection.setRequestProperty("Accept-Language", "en_US");
+								connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+								connection.setUseCaches(false);
+								connection.setDoOutput(true);
+								
+								//Setup output stream to send post request to paypal
+								try {
+									os = connection.getOutputStream();
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+								
+								
+								try {
+									writer = new BufferedWriter(
+									        new OutputStreamWriter(os, "UTF-8"));
+								} catch (Exception e) {
+									e.printStackTrace();
+								}
+								
+								//Send post request to paypal
+								writer.write(data);
+								writer.flush();
+								writer.close();
+								os.close();
+
+								//Call paypal api
+								connection.connect();
+								
+								if(connection.getResponseCode() == 200) {
+								
+									//Get response back from paypal and parse the current account balance
+									//(Need to add check here for response code)
+									br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+									jsonTokener = new JSONTokener(br);
+									json = new JSONObject(jsonTokener);
+									token = json.getString("access_token");
+									
+									url = new URL("https://api-m.sandbox.paypal.com/v1/reporting/balances");
+									connection = (HttpsURLConnection) url.openConnection();
+									connection.setRequestMethod("GET");
+									connection.setRequestProperty("Authorization", "Bearer " + token);
+									connection.setRequestProperty("Content-Type", "application/json");
+									connection.setUseCaches(false);
+									connection.setDoOutput(true);
+									
+									//Setup output stream to send post request to paypal
+									try {
+										os = connection.getOutputStream();
+									} catch (Exception e) {
+										e.printStackTrace();
+									}
+																
+									//Call paypal api
+									connection.connect();
+									
+									if(connection.getResponseCode() == 200) {
+										//Get response back from paypal and parse the current account balance
+										//(Need to add check here for response code)
+										br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+										jsonTokener = new JSONTokener(br);
+										json = new JSONObject(jsonTokener);
+										System.out.println(json);
+									}else {
+										System.out.println("Error calling Paypal API: " + connection);
+									}
+									
+								}else{
+									System.out.println("Error calling Paypal API: " + connection.getResponseMessage());
+								}
+								
+							} catch (MalformedURLException e1) {
+								e1.printStackTrace();
+							} catch (ProtocolException e) {
+								e.printStackTrace();
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+
+	    					if(amount != paypalBalance) {
+	    						infoService.setAmount(paypalBalance);
+	    						amount = paypalBalance;
+	    					}
+	    					
+	    					try {
+								Thread.sleep(5000);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+	    					
+	    				}
+	    				
+	    			}
+	    			
+	    			});
+	        }
+	    };
 	}*/
 	
-	@Bean
+	/*@Bean
 	public CommandLineRunner schedulingRefresh(TaskExecutor executor) {
 	    return new CommandLineRunner() {
 	    	
@@ -166,7 +305,7 @@ public class WeAreGoingApplication {
 									response = URLDecoder.decode(response, "UTF-8");
 									response = response.split("&")[0].split("=")[1];
 									paypalBalance = (int) Double.parseDouble(response);
-								
+									System.out.println(paypalBalance);
 								}else{
 									System.out.println("Error calling Paypal API: " + connection.getResponseMessage());
 								}
@@ -217,6 +356,6 @@ public class WeAreGoingApplication {
 	    }
 
 	    return result.toString();
-	}
+	}*/
 	
 }
