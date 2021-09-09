@@ -35,7 +35,7 @@ public class MailchimpController
 	@RequestMapping(method = RequestMethod.POST, value = "/api/mailchimp/subscribe")
 	public void subscribe(@RequestBody Subscriber subscriber) throws ClientProtocolException, IOException
 		{
-			String apiKey = "747b8f175a502e3d311a61d6d7381a15-us1";
+			String apiKey = "";
 		
 			MailchimpClient mcClient = new MailchimpClient(apiKey);
 			
